@@ -3,6 +3,7 @@ package com.marcura.portlog.demoapp.services;
 import com.marcura.portlog.demoapp.dtos.DemoRequest;
 import com.marcura.portlog.demoapp.dtos.DemoResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -10,10 +11,10 @@ import org.springframework.util.StringUtils;
 @Service
 @Slf4j
 public class DemoServiceImpl implements DemoService{
-    private static final Double multiplier = 1.5;
+    @Value("${demo.multiplier:1}")
+    private Double multiplier;
 
     @Override
-    @Cacheable("demo-process-cache")
     public DemoResponse processRequest(DemoRequest request) {
         log.info("Processing request {}", request.toString());
         if(!StringUtils.hasText(request.getName())){
